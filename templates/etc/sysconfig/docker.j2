@@ -1,0 +1,1 @@
+DOCKER_OPTS='{{ zenoss_docker_opts }} {% if ansible_docker0 is defined %}--big={{ ansible_docker0.ipv4.address }}/{{ ansible_docker0.ipv4.netmask }} --dns={{ ansible_docker0.ipv4.address }}{% endif %}'

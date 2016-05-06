@@ -1,0 +1,43 @@
+---
+# defaults file for ansible-zenoss
+zenoss_docker_file_system:
+  - name: 'docker'
+    devs:
+      - '/dev/sdd'
+    vg: 'docker'
+    lvols:
+      - name: 'thinpool'
+        size: '95%VG'
+      - name: 'thinpoolmeta'
+        size: '1%VG'
+zenoss_docker_opts: '-H fd://'
+zenoss_file_systems:
+  - name: 'backups'
+    dev: '/dev/sdb'
+    fstype: 'xfs'
+    mount: '/opt/serviced/var/backups'
+    opts: 'defaults'
+  - name: 'isvcs'
+    dev: '/dev/sdc'
+    fstype: 'xfs'
+    mount: '/opt/serviced/var/isvcs'
+    opts: 'defaults'
+zenoss_package: 'http://get.zenoss.io/yum/zenoss-repo-1-1.x86_64.rpm'
+zenoss_pre_req_packages:
+  - 'dnsmasq'
+  - 'lvm2'
+  - 'nfs-utils'
+  - 'nmap-ncat'
+  - 'ntp'
+  - 'xfsprogs'
+zenoss_services:
+  - 'dnsmasq'
+  - 'rpcbind'
+  - 'nfs-server'
+  - 'nfs-lock'
+  - 'nfs-idmap'
+  - 'ntpd'
+zenoss_users:
+  - name: 'administrator'
+    password: '$6$I.7NKW9uP$MPB.Gpisa.sfpb//pSSufZm03.kMkQ9YhAJVjvFtpBANKgXfmhV2YTySULVN9VDrfG1tvP3S2pVWaRLja6XeN/'
+    groups: 'wheel'

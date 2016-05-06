@@ -1,0 +1,31 @@
+---
+- name: config_filesystems | creating filesystems
+  filesystem:
+    fstype: "{{ item.fstype }}"
+    dev: "{{ item.dev }}"
+  with_items: '{{ zenoss_file_systems }}'
+
+- name: config_filesystems | mounting filesystems
+  mount:
+    name: "{{ item.mount }}"
+    src: "{{ item.dev }}"
+    fstype: "{{ item.fstype }}"
+    opts: "{{ item.opts }}"
+    state: mounted
+  with_items: '{{ zenoss_file_systems }}'
+
+- name: config_filesystems | creating Docker LVM Volume Group
+  lvg:
+    vg: "{{ item.vg }}"
+    pvs: "{{ item.devs| join (',') }}"
+    state: present
+  with_items: '{{ zenoss_docker_file_system }}'
+
+- name: config_filesystems | creating Docker LVM Logical Volumes
+  lvol:
+    vg: "{{ item.0.vg }}"
+    lv: "{{ item.1.name }}"
+    size: "{{ item.1.size }}"
+  with_subelements:
+    - '{{ zenoss_docker_file_system }}'
+    - lvols

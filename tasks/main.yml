@@ -1,0 +1,9 @@
+---
+# tasks file for ansible-zenoss
+- include: pre-reqs.yml
+
+- include: config_filesystems.yml
+
+- include: docker.yml
+
+- include: install_zenoss.yml
