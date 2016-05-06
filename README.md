@@ -13,9 +13,7 @@ Vagrant
 To spin up a Vagrant environment for testing...  
 ````
 cd vagrant
-ansible-galaxy install -r requirements.yml -f -p ./roles
-vagrant up
-ansible -i hosts zenoss.yml
+./spinup.sh
 ````
 When done testing tear it down...  
 ````
