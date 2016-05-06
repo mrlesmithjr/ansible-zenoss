@@ -6,3 +6,6 @@ fi
 if [ -d .vagrant ]; then
   rm -rf .vagrant
 fi
+if [ -d roles ]; then
+  rm -rf roles
+fi
