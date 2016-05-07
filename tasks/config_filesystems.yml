@@ -20,6 +20,7 @@
     pvs: "{{ item.devs| join (',') }}"
     state: present
   with_items: '{{ zenoss_docker_file_system }}'
+  when: enable_zenoss_docker_filesystems
 
 - name: config_filesystems | creating Docker LVM Logical Volumes
   lvol:
@@ -30,3 +31,4 @@
   with_subelements:
     - '{{ zenoss_docker_file_system }}'
     - lvols
+  when: enable_zenoss_docker_filesystems

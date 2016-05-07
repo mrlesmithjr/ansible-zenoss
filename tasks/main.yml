@@ -7,3 +7,5 @@
 - include: docker.yml
 
 - include: install_zenoss.yml
+
+- include: config_zenoss.yml
