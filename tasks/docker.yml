@@ -63,11 +63,6 @@
         docker_service_config.changed or
         docker_storage_config.changed
 
-- name: docker | ensuring /var/lib/docker is removed
-  file:
-    path: "/var/lib/docker"
-    state: absent
-
 - name: docker | restarting Docker
   service:
     name: "docker"
@@ -77,3 +72,8 @@
         docker_systemd_override.changed or
         docker_service_config.changed or
         docker_storage_config.changed
+
+- name: docker | ensuring /var/lib/docker is removed
+  file:
+    path: "/var/lib/docker"
+    state: absent
