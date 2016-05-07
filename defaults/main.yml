@@ -6,11 +6,16 @@ zenoss_docker_file_system:
       - '/dev/sdd'
     vg: 'docker'
     lvols:
-      - name: 'thinpool'
+      - name: 'data'
+        opts: '-T'  #thin pool
         size: '95%VG'
-      - name: 'thinpoolmeta'
-        size: '1%VG'
-zenoss_docker_opts: '-H fd://'
+#      - name: 'metadata'
+#        opts: '-T'  #thin pool
+#        size: '1%VG'
+zenoss_docker_storage_info:
+  vg: 'docker'
+  data: 'data'
+  metadata: 'metadata'  #not used
 zenoss_file_systems:
   - name: 'backups'
     dev: '/dev/sdb'

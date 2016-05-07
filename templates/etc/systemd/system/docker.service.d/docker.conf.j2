@@ -1,3 +1,13 @@
 [Service]
+#EnvironmentFile=-/etc/sysconfig/docker
+#EnvironmentFile=-/etc/sysconfig/docker-storage
+#EnvironmentFile=-/etc/sysconfig/docker-network
 ExecStart=
-ExecStart=/usr/bin/docker daemon {{ zenoss_docker_opts }}
+ExecStart=/usr/bin/docker daemon -H fd:// \
+{% if ansible_docker0 is defined %}
+         --bip={{ ansible_docker0.ipv4.address }}/16 --dns={{ ansible_docker0.ipv4.address }} \
+{% endif %}
+         --storage-driver devicemapper \
+         --exec-opt native.cgroupdriver=cgroupfs \
+         --storage-opt dm.thinpooldev=/dev/mapper/{{ zenoss_docker_storage_info.vg }}/{{ zenoss_docker_storage_info.data }} \
+         --storage-opt dm.fs=xfs

@@ -44,17 +44,29 @@
     dest: "/etc/systemd/system/docker.service.d/docker.conf"
   register: docker_systemd_override
 
-- name: docker | configuring Docker service
-  template:
-    src: "etc/sysconfig/docker.j2"
-    dest: "/etc/sysconfig/docker"
-  register: docker_service_config
+#- name: docker | configuring Docker service options
+#  template:
+#    src: "etc/sysconfig/docker.j2"
+#    dest: "/etc/sysconfig/docker"
+#  register: docker_service_config
+
+#- name: docker | configuring Docker storage options
+#  template:
+#    src: "etc/sysconfig/docker-storage.j2"
+#    dest: "/etc/sysconfig/docker-storage"
+#  register: docker_storage_config
 
 - name: docker | restarting systemd manager (when Docker systemd override is created)
   shell: "systemctl daemon-reload"
   when: >
         docker_systemd_override.changed or
-        docker_service_config.changed
+        docker_service_config.changed or
+        docker_storage_config.changed
+
+- name: docker | ensuring /var/lib/docker is removed
+  file:
+    path: "/var/lib/docker"
+    state: absent
 
 - name: docker | restarting Docker
   service:
@@ -63,4 +75,5 @@
     enabled: yes
   when: >
         docker_systemd_override.changed or
-        docker_service_config.changed
+        docker_service_config.changed or
+        docker_storage_config.changed

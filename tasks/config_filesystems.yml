@@ -26,6 +26,7 @@
     vg: "{{ item.0.vg }}"
     lv: "{{ item.1.name }}"
     size: "{{ item.1.size }}"
+    opts: "{{ item.1.opts }}"
   with_subelements:
     - '{{ zenoss_docker_file_system }}'
     - lvols
