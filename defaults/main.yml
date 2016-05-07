@@ -9,9 +9,9 @@ zenoss_docker_file_system:
       - name: 'data'
         opts: '-T'  #thin pool
         size: '95%VG'
-#      - name: 'metadata'
-#        opts: '-T'  #thin pool
-#        size: '1%VG'
+      - name: 'metadata'
+        opts: '-T'  #thin pool
+        size: '1%VG'
 zenoss_docker_storage_info:
   vg: 'docker'
   data: 'data'
