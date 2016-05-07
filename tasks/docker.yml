@@ -59,9 +59,7 @@
 - name: docker | restarting systemd manager (when Docker systemd override is created)
   shell: "systemctl daemon-reload"
   when: >
-        docker_systemd_override.changed or
-        docker_service_config.changed or
-        docker_storage_config.changed
+        docker_systemd_override.changed
 
 - name: docker | restarting Docker
   service:
@@ -69,11 +67,9 @@
     state: restarted
     enabled: yes
   when: >
-        docker_systemd_override.changed or
-        docker_service_config.changed or
-        docker_storage_config.changed
-
-- name: docker | ensuring /var/lib/docker is removed
-  file:
-    path: "/var/lib/docker"
-    state: absent
+        docker_systemd_override.changed
+        
+#- name: docker | ensuring /var/lib/docker is removed
+#  file:
+#    path: "/var/lib/docker"
+#    state: absent
